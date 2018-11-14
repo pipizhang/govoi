@@ -1,0 +1,4 @@
+package: github.com/pipizhang/govoi
+import:
+- package: github.com/mikespook/gorbac
+  version: ^2.1.0

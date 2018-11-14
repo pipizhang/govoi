@@ -7,4 +7,5 @@ Dockerfile.tmp
 # App
 *.pid
 .glide
+glide.lock
 vendor
