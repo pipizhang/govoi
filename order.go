@@ -24,7 +24,7 @@ type (
 
 	Vehicle struct {
 		Id        int
-		Bettery   int // (0~100)
+		Battery   int // (0~100)
 		State     string
 		LocalTime time.Time
 		// TODO add more fields

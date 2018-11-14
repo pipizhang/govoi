@@ -31,7 +31,7 @@ func NewRoleManager() *RoleManager {
 	pDrop := gorbac.NewStdPermission(EventDrop)
 	pServiceMode := gorbac.NewStdPermission(EventServiceMode)
 	pUnkonwCheck := gorbac.NewStdPermission(EventUnknowCheck)
-	pBetteryCheck := gorbac.NewStdPermission(EventBetteryCheck)
+	pBatteryCheck := gorbac.NewStdPermission(EventBatteryCheck)
 
 	// EndUser
 	rEndUser.Assign(pLock)
@@ -52,7 +52,7 @@ func NewRoleManager() *RoleManager {
 	rAdmin.Assign(pDrop)
 	rAdmin.Assign(pServiceMode)
 	rAdmin.Assign(pUnkonwCheck)
-	rAdmin.Assign(pBetteryCheck)
+	rAdmin.Assign(pBatteryCheck)
 	rbac.Add(rAdmin)
 
 	return &RoleManager{rbac}

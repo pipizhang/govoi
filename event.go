@@ -6,7 +6,7 @@ const (
 	EventDrop    = "drop"
 	EventCollect = "collect"
 
-	EventBetteryCheck = "bettery_check"
+	EventBatteryCheck = "battery_check"
 	EventUnknowCheck  = "unknow_check"
 	EventServiceMode  = "service_mode"
 )

@@ -1,6 +1,7 @@
 package govoi
 
 import (
+	"errors"
 	"fmt"
 	"log"
 )
@@ -10,6 +11,8 @@ type VehicleStateMachine struct {
 	FSM         *StateMachine
 	RoleManager *RoleManager
 }
+
+var ErrServiceOff = errors.New("Service off during 9pm ~ 5am")
 
 // New return a new VehicleStateMachine
 func New() *VehicleStateMachine {
@@ -21,8 +24,9 @@ func New() *VehicleStateMachine {
 	return &vsm
 }
 
-func sendBetteryLowMessage(vehicleId int) {
+func sendBatteryLowMessage(vehicleId int) {
 	msg := fmt.Sprintf("battery low, vehicle '%d' needs to charge", vehicleId)
+	log.Println("Send Text: " + msg)
 	go func(msg string) {
 		log.Println(msg)
 	}(msg)
@@ -36,7 +40,7 @@ func unlockTimeCheck() hookFn {
 
 		order := value.(*Order)
 		if order.Vehicle.LocalTime.Hour() >= 21 || order.Vehicle.LocalTime.Hour() <= 5 {
-			return fmt.Errorf("Service off during 9pm ~ 5am")
+			return ErrServiceOff
 		}
 		return nil
 	}
@@ -44,16 +48,16 @@ func unlockTimeCheck() hookFn {
 
 func betteryCheck() hookFn {
 	return func(value Stater, args ...interface{}) error {
-		if value.GetState() == StateServiceMode {
+		order := value.(*Order)
+		if order.Vehicle.Battery < 20 {
+			sendBatteryLowMessage(order.Vehicle.Id)
 			return nil
 		}
 
-		order := value.(*Order)
-		if order.Vehicle.Bettery < 20 {
-			sendBetteryLowMessage(order.Vehicle.Id)
+		if value.GetState() == StateServiceMode {
 			return nil
 		}
-		return fmt.Errorf("Battery >= 20%")
+		return fmt.Errorf("Battery >= 20/100")
 	}
 }
 
@@ -84,7 +88,7 @@ func (v *VehicleStateMachine) Init() {
 	)
 
 	v.FSM.Event(EventUnknowCheck).To(StateUnknown).From(StateReady, StateServiceMode)
-	v.FSM.Event(EventBetteryCheck).To(StateBatteryLow).From(StateRiding, StateServiceMode).
+	v.FSM.Event(EventBatteryCheck).To(StateBatteryLow).From(StateRiding, StateServiceMode).
 		Before(betteryCheck())
 }
 
