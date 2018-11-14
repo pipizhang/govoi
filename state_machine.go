@@ -4,6 +4,8 @@ import (
 	"fmt"
 )
 
+// Reference Transition (adjust and remove gorm etc)
+
 // StateMachine a struct that hold states, events definitions
 type StateMachine struct {
 	initialState string

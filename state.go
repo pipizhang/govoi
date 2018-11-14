@@ -9,6 +9,7 @@ const (
 	StateUnknown     = "unknown"
 	StateTerminated  = "terminated"
 	StateServiceMode = "service_mode"
+	//StateBounty      = "bounty"
 )
 
 // hookFn state machine callback function
