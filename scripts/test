@@ -1,0 +1,7 @@
+#!/bin/bash
+# vim: set filetype=sh :
+
+SOURCE_DIRECTORY=$(dirname "${BASH_SOURCE[0]}")
+cd "${SOURCE_DIRECTORY}/.."
+
+go test -count=1 -race -v $(go list ./...)
