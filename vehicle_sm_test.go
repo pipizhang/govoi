@@ -102,3 +102,15 @@ func TestBatteryCheck(t *testing.T) {
 	err = vsm.Fire(EventBatteryCheck, order_2)
 	assert.Nil(t, err)
 }
+
+func BenchmarkEventFire(b *testing.B) {
+	vsm := New()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		order_1 := &Order{
+			User:    &User{Id: 1, Role: RoleEndUser},
+			Vehicle: &Vehicle{Id: 1, State: StateReady, LocalTime: time.Now()},
+		}
+		vsm.Fire(EventUnlock, order_1)
+	}
+}

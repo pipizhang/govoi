@@ -9,6 +9,9 @@ help: ## This help message
 test: ## Run go test
 	@(scripts/test)
 
+benchmark: ## Run go benchmark
+	@exec go test -bench=. -v -run=none
+
 .PHONY:install
 install: ## Install dependencies
 	@exec glide install

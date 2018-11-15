@@ -44,3 +44,11 @@ func TestRoleAdmin(t *testing.T) {
 	ok, _ = r.IsDeny(RoleAdmin, EventServiceMode)
 	assert.False(t, ok)
 }
+
+func BenchmarkIsAllow(b *testing.B) {
+	r := NewRoleManager()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		r.IsAllow(RoleEndUser, EventUnlock)
+	}
+}
